@@ -24,6 +24,7 @@ class Frames {
 	}
 	//
 	loop(limit = 10, afterIteration) {
+		console.log('x');
 		return new Promise(resolve => {
 			const self = this;
 			const index = 0;
