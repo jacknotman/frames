@@ -75,9 +75,9 @@ x.loop(iterationCount => {
 const lines = [
 	'Hello World,',
 	'welcome to Frames',
-	' ',
+	'\n',
 	'The animation scheduling protocol for Javascript.',
-	' ',
+	'\n',
 	'683 bytes of code.',
 	'340 gZipped.',
 	'Awesome.',
@@ -92,6 +92,21 @@ document.querySelector('.content').appendChild(element);
 // Loops over the above character array, printing a character approximately 
 // every 40 miliseconds. 
 const x = new Frames(lines, line => {
+	return new Promise(resolveLine => {
+		let lineElement = document.createElement('div');
+		element.appendChild(lineElement);
+		new Frames(line.split(''), char => {
+			return new Promise(resolveChar => {
+				setTimeout(() => {
+					let charElement = document.createElement('span');
+					charElement.textContent = char;
+					lineElement.appendChild(charElement);
+					resolveChar();
+				}, 40);
+			}); 
+		}).animate().then(_ => resolveLine());
+	});
+
 	let lineElement = document.createElement('div');
 	element.appendChild(lineElement);
 	new Frames(line.split(''), char => {
