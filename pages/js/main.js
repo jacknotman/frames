@@ -32,6 +32,7 @@ const x = new Frames(characterArray, frame => {
 	return new Promise(resolve => {
 		setTimeout(() => {
 			element.innerHTML += frame;
+			window.scrollTo(element.offsetHeight, 0);
 			resolve();
 		}, 40);
 	});
