@@ -121,7 +121,7 @@ new Frames(lines, line => {
                     });
                     //
                     resolveChar();
-                }, 40);
+                }, 50);
             });
         }).animate().then(_ => resolveLine());
     });
