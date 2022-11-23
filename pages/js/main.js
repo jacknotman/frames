@@ -21,17 +21,17 @@ appHeight();
 const characterArray2 = 'Hello World, \nWelcome to Frames. \n\nThe animation scheduling protocol for JS. \n\n488 bytes of code.\n275 gZipped.\nAwesome.'.split('');
 
 // Create an element for our animations
-const element2 = document.createElement('span');
-element2.ariaLive = "assertive"
-element2.ariaBusy = "true";
-document.querySelector('.content').appendChild(element2);
+const element = document.createElement('span');
+element.ariaLive = "assertive"
+element.ariaBusy = "true";
+document.querySelector('.content').appendChild(element);
 
 // Loops over the above character array, printing a character approximately 
 // every 40 miliseconds. 
 const x = new Frames(characterArray2, frame => {
 	return new Promise(resolve => {
 		setTimeout(() => {
-			element2.innerHTML += frame;
+			element.innerHTML += frame;
 			resolve();
 		}, 40);
 	});
@@ -39,11 +39,17 @@ const x = new Frames(characterArray2, frame => {
 
 /*
 x.animate().then(([self, time]) => {
-  element2.ariaBusy = "false";
+  element.ariaBusy = "false";
   console.log(`Done in: ${time}ms`);
 });
 */
 
 x.loop(10, () => {
-	console.log('a');
+	return new Promise(resolve => {
+		setTimeout(() => {
+			console.log('a');
+			element.innerHTML = '';
+			resolve();
+		}, 3000);
+	})
 });
