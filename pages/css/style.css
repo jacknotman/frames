@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&family=Press+Start+2P&display=swap');
+
+:root {
+  --app-height: 100%;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+.wrap800 {
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+section {
+	width: 100vw;
+	padding: 1rem;
+	background: #0c0c0c;
+	box-sizing: border-box;
+}
+
+section .content {
+	display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  min-height: var(--app-height);
+  white-space: pre-line;
+}
+
+span {
+	font-family: 'Libre Barcode 128 Text', cursive;
+	font-size: 2rem;
+	font-family: 'Press Start 2P', cursive;
+	font-size: 1rem;
+	line-height: 1.2rem;
+	margin: 0;
+	color: #eaeae8;
+}
+
+/*span:nth-child(1)*/, span::after { 
+  display:none; 
+}
