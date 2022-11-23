@@ -213,7 +213,7 @@ const doRollingText = (char, index, element) => {
 const randomChars = `$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^\`'.`.split('');
 
 const sequence = [{
-    animation: new Frames(prepareGlitchText('\n\nIntercepting Transmission...\n\n'), (char, index) => {
+    animation: new Frames(prepareGlitchText('\nIntercepting Transmission...\n\n'), (char, index) => {
         return doGlitchText(char, index, elements[0]);
     }),
     type: 'animate'
@@ -224,7 +224,7 @@ const sequence = [{
     type: 'loop',
     count: 3
 }, {
-    animation: new Frames(prepareGlitchText('Transmission captured.\n\n'), (char, index) => {
+    animation: new Frames(prepareGlitchText('Transmission captured.'), (char, index) => {
         return doGlitchText(char, index, elements[1]);
     }),
     type: 'animate'
