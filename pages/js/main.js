@@ -106,17 +106,4 @@ const x = new Frames(lines, line => {
 			}); 
 		}).animate().then(_ => resolveLine());
 	});
-
-	let lineElement = document.createElement('div');
-	element.appendChild(lineElement);
-	new Frames(line.split(''), char => {
-		return new Promise(resolve => {
-			setTimeout(() => {
-				let charElement = document.createElement('span');
-				charElement.textContent = char;
-				lineElement.appendChild(charElement);
-				resolve();
-			}, 40);
-		}); 
-	}).animate();
 }).animate();
