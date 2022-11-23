@@ -83,7 +83,7 @@ const lines = [
 	'Awesome.',
 ];
 
-const randomChars = `$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^\`'.`.split();
+const randomChars = `$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^\`'.`.split('');
 
 // Create an element for our animations
 const element = document.createElement('div');
@@ -102,7 +102,7 @@ const x = new Frames(lines, line => {
 				setTimeout(() => {
 					//
 					lineElement.childNodes.forEach(node => {
-						console.log(randomChars[(Math.floor(Math.random() * randomChars.length))]);
+						node.textContent = randomChars[(Math.floor(Math.random() * randomChars.length))];
 					});
 					//
 					let charElement = document.createElement('span');
