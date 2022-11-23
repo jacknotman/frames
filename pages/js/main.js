@@ -17,6 +17,7 @@ appHeight();
 // Main
 //
 
+/*
 // Create an array of characters for our animation to use.
 const characterArray = 
 	`Hello World,
@@ -45,14 +46,13 @@ const x = new Frames(characterArray, frame => {
 	});
 });
 
-/*
 // Perform the animation once, once complete log the amount of time taken. 
 x.animate().then(([self, time]) => {
   element.ariaBusy = "false";
   console.log(`Done in: ${time}ms`);
 });
-*/
 
+/*
 //Perfrom the animation 10 times, clearing the output between each frame (except the last), after a delay of 160ms, 
 //before the next frame. 
 x.loop(iterationCount => {
@@ -69,3 +69,39 @@ x.loop(iterationCount => {
 		}, 160);
 	});
 });
+*/
+
+//
+const lines = [
+	'Hello World,',
+	'welcome to Frames',
+	'',
+	'The animation scheduling protocol for Javascript.',
+	'',
+	'683 bytes of code.',
+	'340 gZipped.',
+	'Awesome.',
+];
+
+// Create an element for our animations
+const element = document.createElement('div');
+element.ariaLive = "assertive"
+element.ariaBusy = "true";
+document.querySelector('.content').appendChild(element);
+
+// Loops over the above character array, printing a character approximately 
+// every 40 miliseconds. 
+const x = new Frames(lines, line => {
+	let lineElement = document.createElement('div');
+	element.appendChild(lineElement);
+	new Frames(line.split(''), char => {
+		return new Promise(resolve => {
+			setTimeout(() => {
+				let charElement = document.createElement('span');
+				charElement.textContent = char;
+				lineElement.appendChild(charElement);
+				resolve();
+			}, 40);
+		}); 
+	}).animate();
+}).animate();
