@@ -97,6 +97,7 @@ element.ariaBusy = "true";
 document.querySelector('.content').appendChild(element);
 
 // 
+/*
 new Frames(lines, line => {
     return new Promise(resolveLine => {
         let lineElement = document.createElement('div');
@@ -126,3 +127,45 @@ new Frames(lines, line => {
 }).animate().then(([self, x]) => {
 	console.log(self);
 })
+*/
+
+new Frames(lines, line => {
+    return new Promise(resolveLine => {
+        let lineElement = document.createElement('div');
+        element.appendChild(lineElement);
+        new Frames(line, (char, index) => {
+            return new Promise(resolveChar => {
+                setTimeout(() => {
+                    //
+                    let charElement = document.createElement('span');
+                    charElement.dataset.lockWhen = char.lockWhen;
+                    charElement.dataset.origChar = char.char;
+                    lineElement.appendChild(charElement);
+                    //
+                    lineElement.childNodes.forEach(node => {
+                        if (Number(node.dataset.lockWhen) > index && node.dataset.origChar != '\n' && node.dataset.origChar != ' ') {
+                            node.textContent = randomChars[(Math.floor(Math.random() * randomChars.length))];
+                        } else {
+                            node.textContent = node.dataset.origChar;
+                        }
+                    });
+                    //
+                    resolveChar();
+                }, 40);
+            });
+        }).animate().then(_ => resolveLine(line));
+    });
+}).loop(iterationCount => {
+	return iterationCount < 3;
+}, (iterationCount, done) => {
+	return new Promise(resolve => {
+		setTimeout(() => {
+			if(!done) {
+				element.innerHTML = ''
+			} else {
+				element.ariaBusy = "false";
+			};
+			resolve();
+		}, 160);
+	});
+});

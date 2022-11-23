@@ -12,11 +12,9 @@ class Frames {
                     self.framesDone.push(currentFrame);
                     Promise.resolve(self.animationFunction(currentFrame, index++, index >= length)).then(_ => window.requestAnimationFrame(animationSchedule));
                 } else {
-                    Promise.all(self.framesDone).then(values => {
-                        self.frames = self.framesDone;
-                        self.framesDone = [];
-                        resolve([self, Date.now() - start]);
-                    });
+					self.frames = self.framesDone;
+                    self.framesDone = [];
+                    resolve([self, Date.now() - start]);
                 }
             }
             window.requestAnimationFrame(animationSchedule);
@@ -41,7 +39,7 @@ class Frames {
     //
     constructor(frames, animation) {
         this.framesDone = [];
-        this.frames = frames;
+        this.frames = [...frames];
         this.animationFunction = animation;
     }
 }
