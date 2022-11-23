@@ -46,6 +46,7 @@ const x = new Frames(characterArray, frame => {
 });
 
 /*
+// Perform the animation once, once complete log the amount of time taken. 
 x.animate().then(([self, time]) => {
   element.ariaBusy = "false";
   console.log(`Done in: ${time}ms`);
@@ -60,6 +61,7 @@ x.loop(iterationCount => {
 	return new Promise(resolve => {
 		setTimeout(() => {
 			if(!done) element.innerHTML = '';
+			else element.ariaBusy = "false";
 			resolve();
 		}, 160);
 	});
