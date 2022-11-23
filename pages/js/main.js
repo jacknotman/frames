@@ -123,10 +123,12 @@ new Frames(lines, line => {
             });
         }).animate().then(_ => resolveLine());
     });
-}).loop(limit => limit < 3, _ => {
+}).loop(iterationCount => {
+	return iterationCount < 3;
+}, (index, done) => {
 	return new Promise(resolveLoop => {
 		setTimeout(() => {
-			console.log('x');
+			console.log(index, done);
 			element.innerHTML = '';
 			resolveLoop();
 		}, 200);
