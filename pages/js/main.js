@@ -224,8 +224,13 @@ const sequence = [{
     type: 'loop',
     count: 3
 }, {
-    animation: new Frames(prepareGlitchText('Transmission captured.'), (char, index) => {
+    animation: new Frames(prepareGlitchText('Transmission captured.\n\n'), (char, index) => {
         return doGlitchText(char, index, elements[1]);
+    }),
+    type: 'animate'
+}, {
+    animation: new Frames(prepareGlitchText('Decoding data packets...'), (char, index) => {
+        return doGlitchText(char, index, elements[2]);
     }),
     type: 'animate'
 }];
