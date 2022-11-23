@@ -18,7 +18,16 @@ appHeight();
 //
 
 // Create an array of characters for our animation to use.
-const characterArray = 'Hello World, \nWelcome to Frames. \n\nThe animation scheduling protocol for JS. \n\n488 bytes of code.\n275 gZipped.\nAwesome.'.split('');
+//const characterArray = 'Hello World, \nWelcome to Frames. \n\nThe animation scheduling protocol for JS. \n\n488 bytes of code.\n275 gZipped.\nAwesome.'.split('');
+
+const characterArray = `Hello World,
+Welcome to Frames.
+
+The animation scheduling protocol for js. 
+
+488 bytes of code.
+275 gZipped. 
+Awesome.`.split('');
 
 // Create an element for our animations
 const element = document.createElement('span');
@@ -50,12 +59,9 @@ x.animate().then(([self, time]) => {
 x.loop(iterationCount => {
 	return iterationCount < 10;
 }, (iterationCount, done) => {
-	console.log(iterationCount, done)
 	return new Promise(resolve => {
 		setTimeout(() => {
-			if(!done) {
-				element.innerHTML = '';
-			}
+			if(!done) element.innerHTML = '';
 			resolve();
 		}, 160);
 	});
