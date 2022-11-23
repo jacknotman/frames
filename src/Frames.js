@@ -2,8 +2,8 @@ class Frames {
   //
 	animate() {
 		return new Promise(resolve => {
-      const self = this;
-      const start = Date.now();
+      		const self = this;
+      		const start = Date.now();
 			const length = this.frames.length;
 			let index = 0;
 			const animationSchedule = async () => {
@@ -23,8 +23,12 @@ class Frames {
 		});
 	}
 	//
-	loop() {
-		console.log('looping');
+	loop(limit = 10, afterIteration) {
+		let i = 0;
+		while(i < limit) {
+			i++;
+			console.log('looping', i);
+		}
 	}
 	//
 	constructor(frames, animation) {
