@@ -32,7 +32,7 @@ const x = new Frames(characterArray, frame => {
 	return new Promise(resolve => {
 		setTimeout(() => {
 			element.innerHTML += frame;
-			window.scrollTo(0, element.offsetHeight);
+			//window.scrollTo(0, element.offsetHeight);
 			resolve();
 		}, 40);
 	});
@@ -47,13 +47,13 @@ x.animate().then(([self, time]) => {
 
 //Perfrom the animation 10 times, clearing the output between each frame (except the last), after a delay of 160ms, 
 //before the next frame. 
-x.loop(count => {
-	return count < 10;
-}, (iteration, length) => {
-	console.log('a');
+x.loop(iterationCount => {
+	return iterationCount < 10;
+}, (iterationCount, done) => {
+	console.log(iterationCount, done)
 	return new Promise(resolve => {
 		setTimeout(() => {
-			if(iteration < length) {
+			if(!done) {
 				element.innerHTML = '';
 			}
 			resolve();

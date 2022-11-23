@@ -30,7 +30,7 @@ class Frames {
 			let currentIteration = 0;
 			const loopSchedule = async () => {
 				if(limit(currentIteration)) {
-					self.animate().then(_ => Promise.resolve(afterIteration(currentIteration++, limit)).then(_ => loopSchedule()));
+					self.animate().then(_ => Promise.resolve(afterIteration(currentIteration++, !limit(currentIteration))).then(_ => loopSchedule()));
 				} else {
 					resolve([self, Date.now() - start]);
 				}
