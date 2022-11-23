@@ -37,11 +37,13 @@ const x = new Frames(characterArray2, frame => {
 	});
 });
 
+/*
 x.animate().then(([self, time]) => {
   element2.ariaBusy = "false";
   console.log(`Done in: ${time}ms`);
 });
+*/
 
 x.loop(10, () => {
-
+	console.log('a');
 });

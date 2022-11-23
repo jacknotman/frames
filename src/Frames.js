@@ -10,7 +10,7 @@ class Frames {
 				let currentFrame = self.frames.shift();
 				if(currentFrame) {
 					self.framesDone.push(currentFrame);
-					Promise.resolve(self.animationFunction(currentFrame, index++, length)).then(x => window.requestAnimationFrame(animationSchedule));
+					Promise.resolve(self.animationFunction(currentFrame, index++, length)).then(_ => window.requestAnimationFrame(animationSchedule));
 				} else {
 					Promise.all(self.framesDone).then(values => {
 						self.frames = self.framesDone;
@@ -24,11 +24,18 @@ class Frames {
 	}
 	//
 	loop(limit = 10, afterIteration) {
-		let i = 0;
-		while(i < limit) {
-			i++;
-			console.log('looping', i);
-		}
+		return new Promise(resolve => {
+			const self = this;
+			const index = 0;
+			const loopSchedule = async () => {
+				let currentIteration = index++;
+				if(currentIteration < limit) {
+					self.animate().then(_ => Promise.resolve(afterIteration).then(_ => loopSchedule()));
+				} else {
+					resolve([self, Date.now() - start]);
+				}
+			}
+		});
 	}
 	//
 	constructor(frames, animation) {
