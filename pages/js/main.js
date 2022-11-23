@@ -71,7 +71,7 @@ x.loop(iterationCount => {
 });
 */
 
-//
+/*
 const lines = [
     'Hello World,',
     'Welcome to Frames.',
@@ -213,7 +213,7 @@ const doRollingText = (char, index, element) => {
 const randomChars = `$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^\`'.`.split('');
 
 const sequence = [{
-    animation: new Frames(prepareGlitchText('Intercepting Transmission...'), (char, index) => {
+    animation: new Frames(prepareGlitchText('Intercepting Transmission...\n\n'), (char, index) => {
         return doGlitchText(char, index, elements[0]);
     }),
     type: 'animate'
@@ -225,7 +225,7 @@ const sequence = [{
     count: 3
 }, {
     animation: new Frames(prepareGlitchText('Transmission captured.'), (char, index) => {
-        return doGlitchText(char, index, elements[2]);
+        return doGlitchText(char, index, elements[1]);
     }),
     type: 'animate'
 }];
