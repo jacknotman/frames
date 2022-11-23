@@ -102,7 +102,7 @@ const x = new Frames(lines, line => {
 				setTimeout(() => {
 					//
 					lineElement.childNodes.forEach(node => {
-						node.textContent = randomChars[(Math.floor(Math.random() * randomChars.length))];
+						console.log(randomChars[(Math.floor(Math.random() * randomChars.length))]);
 					});
 					//
 					let charElement = document.createElement('span');
