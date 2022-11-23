@@ -23,14 +23,14 @@ class Frames {
 		});
 	}
 	//
-	loop(limit = 10, afterIteration) {
+	loop(limit = _ => true, afterIteration) {
 		return new Promise(resolve => {
 			const self = this;
 			const start = Date.now();
 			let currentIteration = 0;
 			const loopSchedule = async () => {
-				if(currentIteration++ < limit) {
-					self.animate().then(_ => Promise.resolve(afterIteration(currentIteration, limit)).then(_ => loopSchedule()));
+				if(limit(currentIteration)) {
+					self.animate().then(_ => Promise.resolve(afterIteration(currentIteration++, limit)).then(_ => loopSchedule()));
 				} else {
 					resolve([self, Date.now() - start]);
 				}
