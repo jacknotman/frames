@@ -109,11 +109,11 @@ new Frames(lines, line => {
                     let charElement = document.createElement('span');
                     charElement.dataset.lockWhen = char.lockWhen;
                     charElement.dataset.origChar = char.char;
-                    charElement.textContent = char.char;
+                    //charElement.textContent = char.char;
                     lineElement.appendChild(charElement);
                     //
                     lineElement.childNodes.forEach(node => {
-                        if (Number(node.dataset.lockWhen) > index && node.textContent != '\n' && node.textContent != ' ') {
+                        if (Number(node.dataset.lockWhen) > index && node.dataset.origChar != '\n' && node.dataset.origChar != ' ') {
                             node.textContent = randomChars[(Math.floor(Math.random() * randomChars.length))];
                         } else {
                             node.textContent = node.dataset.origChar;
