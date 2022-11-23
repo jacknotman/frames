@@ -74,7 +74,7 @@ x.loop(iterationCount => {
 //
 const lines = [
 	'Hello World,',
-	'Welcome to Frames',
+	'Welcome to Frames.',
 	'\n',
 	'The animation scheduling protocol for Javascript.',
 	'\n',
@@ -82,6 +82,8 @@ const lines = [
 	'340 gZipped.',
 	'Awesome.',
 ];
+
+const randomChars = `$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^\`'.`.split();
 
 // Create an element for our animations
 const element = document.createElement('div');
@@ -98,6 +100,11 @@ const x = new Frames(lines, line => {
 		new Frames(line.split(''), char => {
 			return new Promise(resolveChar => {
 				setTimeout(() => {
+					//
+					lineElement.childNodes.forEach(node => {
+						node.textContent = randomChars[(Math.floor(Math.random() * randomChars.length))];
+					});
+					//
 					let charElement = document.createElement('span');
 					charElement.textContent = char;
 					lineElement.appendChild(charElement);
