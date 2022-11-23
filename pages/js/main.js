@@ -40,7 +40,6 @@ const x = new Frames(characterArray, frame => {
 	return new Promise(resolve => {
 		setTimeout(() => {
 			element.innerHTML += frame;
-			//window.scrollTo(0, element.offsetHeight);
 			resolve();
 		}, 40);
 	});
