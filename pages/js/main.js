@@ -206,7 +206,7 @@ const doRollingText = (char, index, element) => {
             charElem.textContent = char;
             element.replaceChildren(charElem);
             resolve();
-        }, 120);
+        }, 100);
     });
 }
 
