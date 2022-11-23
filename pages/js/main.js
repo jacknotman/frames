@@ -73,15 +73,20 @@ x.loop(iterationCount => {
 
 //
 const lines = [
-	'Hello World,',
-	'Welcome to Frames.',
-	'\n',
-	'The animation scheduling protocol for Javascript.',
-	'\n',
-	'683 bytes of code.',
-	'340 gZipped.',
-	'Awesome.',
-];
+    'Hello World,',
+    'Welcome to Frames.',
+    '\n',
+    'The animation scheduling protocol for Javascript.',
+    '\n',
+    '683 bytes of code.',
+    '340 gZipped.',
+    'Awesome.',
+].map(line => line.split('').map((char, i, arr) => {
+    return {
+        char,
+        lockWhen: Math.floor(Math.random() * arr.length)
+    }
+}));
 
 const randomChars = `$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^\`'.`.split('');
 
@@ -93,24 +98,31 @@ document.querySelector('.content').appendChild(element);
 
 // Loops over the above character array, printing a character approximately 
 // every 40 miliseconds. 
-const x = new Frames(lines, line => {
-	return new Promise(resolveLine => {
-		let lineElement = document.createElement('div');
-		element.appendChild(lineElement);
-		new Frames(line.split(''), char => {
-			return new Promise(resolveChar => {
-				setTimeout(() => {
-					//
-					lineElement.childNodes.forEach(node => {
-						node.textContent = randomChars[(Math.floor(Math.random() * randomChars.length))];
-					});
-					//
-					let charElement = document.createElement('span');
-					charElement.textContent = char;
-					lineElement.appendChild(charElement);
-					resolveChar();
-				}, 40);
-			}); 
-		}).animate().then(_ => resolveLine());
-	});
+new Frames(lines, line => {
+    return new Promise(resolveLine => {
+        let lineElement = document.createElement('div');
+        element.appendChild(lineElement);
+        new Frames(line, (char, index) => {
+            return new Promise(resolveChar => {
+                setTimeout(() => {
+                    //
+                    let charElement = document.createElement('span');
+                    charElement.dataset.lockWhen = char.lockWhen;
+                    charElement.dataset.origChar = char.char;
+                    charElement.textContent = char.char;
+                    lineElement.appendChild(charElement);
+                    //
+                    lineElement.childNodes.forEach(node => {
+                        if (Number(node.dataset.lockWhen) > index && node.textContent != '\n' && node.textContent != ' ') {
+                            node.textContent = randomChars[(Math.floor(Math.random() * randomChars.length))];
+                        } else {
+                            node.textContent = node.dataset.origChar;
+                        };
+                    });
+                    //
+                    resolveChar();
+                }, 40);
+            });
+        }).animate().then(_ => resolveLine());
+    });
 }).animate();
