@@ -74,7 +74,7 @@ x.loop(iterationCount => {
 //
 const lines = [
 	'Hello World,',
-	'welcome to Frames',
+	'Welcome to Frames',
 	'\n',
 	'The animation scheduling protocol for Javascript.',
 	'\n',
