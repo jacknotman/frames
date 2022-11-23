@@ -96,8 +96,7 @@ element.ariaLive = "assertive"
 element.ariaBusy = "true";
 document.querySelector('.content').appendChild(element);
 
-// Loops over the above character array, printing a character approximately 
-// every 40 miliseconds. 
+// 
 new Frames(lines, line => {
     return new Promise(resolveLine => {
         let lineElement = document.createElement('div');
@@ -109,7 +108,6 @@ new Frames(lines, line => {
                     let charElement = document.createElement('span');
                     charElement.dataset.lockWhen = char.lockWhen;
                     charElement.dataset.origChar = char.char;
-                    //charElement.textContent = char.char;
                     lineElement.appendChild(charElement);
                     //
                     lineElement.childNodes.forEach(node => {
@@ -128,6 +126,7 @@ new Frames(lines, line => {
 }).loop(limit => limit < 3, _ => {
 	return new Promise(resolveLoop => {
 		setTimeout(() => {
+			console.log('x');
 			element.innerHTML = '';
 			resolveLoop();
 		}, 200);
