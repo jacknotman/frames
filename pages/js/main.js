@@ -60,9 +60,11 @@ x.loop(iterationCount => {
 }, (iterationCount, done) => {
 	return new Promise(resolve => {
 		setTimeout(() => {
-			//if(!done) element.innerHTML = '';
-			//else element.ariaBusy = "false";
-			element.innerHTML = '';
+			if(!done) {
+				element.innerHTML = ''
+			} else {
+				element.ariaBusy = "false";
+			};
 			resolve();
 		}, 160);
 	});
