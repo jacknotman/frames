@@ -125,4 +125,11 @@ new Frames(lines, line => {
             });
         }).animate().then(_ => resolveLine());
     });
-}).animate();
+}).loop(limit => limit < 3, _ => {
+	return new Promise(resolveLoop => {
+		setTimeout(() => {
+			element.innerHTML = '';
+			resolveLoop();
+		}, 200);
+	})
+});
