@@ -41,6 +41,6 @@ span {
 	color: #eaeae8;
 }
 
-/*span:nth-child(1)*/, span::after { 
+span::after { 
   display:none; 
 }
