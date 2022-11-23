@@ -127,7 +127,6 @@ new Frames(lines, line => {
 }).animate().then(([self, x]) => {
 	console.log(self);
 })
-*/
 
 new Frames(lines, line => {
     return new Promise(resolveLine => {
@@ -169,3 +168,82 @@ new Frames(lines, line => {
 		}, 160);
 	});
 });
+*/
+
+const prepareGlitchText = (str) => {
+    return str.split('').map((char, i, arr) => {
+        return {
+            char,
+            lockWhen: Math.floor(Math.random() * arr.length)
+        }
+    });
+}
+
+const doGlitchText = (char, index, element) => {
+    return new Promise(resolveChar => {
+        setTimeout(() => {
+            let charElement = document.createElement('span');
+            charElement.dataset.lockWhen = char.lockWhen;
+            charElement.dataset.origChar = char.char;
+            element.appendChild(charElement);
+            //
+            element.childNodes.forEach(node => {
+                if (Number(node.dataset.lockWhen) > index && node.dataset.origChar != '\n' && node.dataset.origChar != ' ') {
+                    node.textContent = randomChars[(Math.floor(Math.random() * randomChars.length))];
+                } else {
+                    node.textContent = node.dataset.origChar;
+                }
+            });
+            resolveChar();
+        }, 40);
+    });
+}
+
+const doRollingText = (char, index, element) => {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            let charElem = document.createElement('span');
+            charElem.textContent = char;
+            element.replaceChildren(charElem);
+            resolve();
+        }, 120);
+    });
+}
+
+const randomChars = `$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^\`'.`.split('');
+
+const sequence = [{
+    animation: new Frames(prepareGlitchText('Intercepting Transmission...'), (char, index) => {
+        return doGlitchText(char, index, elements[0]);
+    }),
+    type: 'animate'
+}, {
+    animation: new Frames('-\\|/'.split(''), (char, index) => {
+        return doRollingText(char, index, elements[1]);
+    }),
+    type: 'loop',
+    count: 3
+}, {
+    animation: new Frames(prepareGlitchText('Transmission captured.'), (char, index) => {
+        return doGlitchText(char, index, elements[2]);
+    }),
+    type: 'animate'
+}];
+
+const elements = Array.from(Array(sequence.length)).map(_ => {
+    const element = document.createElement('div');
+    element.ariaLive = "assertive"
+    element.ariaBusy = "true";
+    document.querySelector('.content').appendChild(element);
+    return element;
+});
+
+new Frames(sequence, animation => {
+    return new Promise(resolve => {
+        if (animation.type === 'animate') {
+            animation.animation.animate().then(_ => resolve());
+        } else {
+            animation.animation.loop(iterationCount => iterationCount < animation.count).then(_ => resolve());
+        }
+    });
+}).animate();
