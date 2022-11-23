@@ -3,7 +3,7 @@
 //
 
 // Import Anima
-import { default as Frames } from "./Frames.js";
+import { default as Frames } from "./../../src/Frames.js";
 
 // Useful Hack for ios safari setting a CSS variable equal to the active viewport height.
 const appHeight = () => {
