@@ -51,6 +51,6 @@ x.loop(10, (iteration, length) => {
 			console.log(iteration);
 			element.innerHTML = '';
 			resolve();
-		}, 40);
+		}, 160);
 	});
 });
