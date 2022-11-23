@@ -18,9 +18,8 @@ appHeight();
 //
 
 // Create an array of characters for our animation to use.
-//const characterArray = 'Hello World, \nWelcome to Frames. \n\nThe animation scheduling protocol for JS. \n\n488 bytes of code.\n275 gZipped.\nAwesome.'.split('');
-
-const characterArray = `Hello World,
+const characterArray = 
+`Hello World,
 Welcome to Frames.
 
 The animation scheduling protocol for js. 
