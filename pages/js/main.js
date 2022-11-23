@@ -115,22 +115,14 @@ new Frames(lines, line => {
                             node.textContent = randomChars[(Math.floor(Math.random() * randomChars.length))];
                         } else {
                             node.textContent = node.dataset.origChar;
-                        };
+                        }
                     });
                     //
                     resolveChar();
-                }, 50);
+                }, 40);
             });
-        }).animate().then(_ => resolveLine());
+        }).animate().then(_ => resolveLine(line));
     });
-}).loop(iterationCount => {
-	return iterationCount < 3;
-}, (index, done) => {
-	return new Promise(resolveLoop => {
-		setTimeout(() => {
-			console.log(index, done);
-			element.innerHTML = '';
-			resolveLoop();
-		}, 200);
-	})
-});
+}).animate().then(([self, x]) => {
+	console.log(self);
+})
