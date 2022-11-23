@@ -23,6 +23,10 @@ class Frames {
 		});
 	}
 	//
+	loop() {
+		console.log('looping');
+	}
+	//
 	constructor(frames, animation) {
     this.framesDone = [];
 		this.frames = frames;
