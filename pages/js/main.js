@@ -50,6 +50,7 @@ x.animate().then(([self, time]) => {
 x.loop(count => {
 	return count < 10;
 }, (iteration, length) => {
+	console.log('a');
 	return new Promise(resolve => {
 		setTimeout(() => {
 			if(iteration < length) {
