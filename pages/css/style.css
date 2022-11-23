@@ -43,6 +43,14 @@ h1 {
 	color: #eaeae8;
 }
 
+h2 {
+	font-family: 'Mode Seven', monospace;
+	font-size: 0.9rem;
+	line-height: 1;
+	margin: 0;
+	color: #eaeae8;
+}
+
 span {
 	font-family: 'Mode Seven', monospace;
 	font-size: 1rem;
