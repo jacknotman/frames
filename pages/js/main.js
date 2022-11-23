@@ -44,7 +44,6 @@ x.animate().then(([self, time]) => {
 });
 */
 
-x.loop(10, () => {
-	console.log('b');
-	element.innerHTML = '';
+x.loop(10, (iteration, length) => {
+	console.log(iteration, length)
 });
