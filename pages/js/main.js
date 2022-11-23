@@ -45,11 +45,6 @@ x.animate().then(([self, time]) => {
 */
 
 x.loop(10, () => {
-	return new Promise(resolve => {
-		setTimeout(() => {
-			console.log('a');
-			element.innerHTML = '';
-			resolve();
-		}, 3000);
-	})
+	console.log('a');
+	element.innerHTML = '';
 });
