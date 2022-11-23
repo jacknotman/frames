@@ -21,7 +21,7 @@ class Frames {
         });
     }
     //
-    loop(limit = _ => true, afterIteration) {
+    loop(limit = _ => true, afterIteration = _ => true) {
         return new Promise(resolve => {
             const self = this;
             const start = Date.now();
