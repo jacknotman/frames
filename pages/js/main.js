@@ -56,7 +56,7 @@ x.animate().then(([self, time]) => {
 //Perfrom the animation 10 times, clearing the output between each frame (except the last), after a delay of 160ms, 
 //before the next frame. 
 x.loop(iterationCount => {
-	return iterationCount < 10;
+	return iterationCount < 3;
 }, (iterationCount, done) => {
 	return new Promise(resolve => {
 		setTimeout(() => {
