@@ -228,11 +228,6 @@ const sequence = [{
         return doGlitchText(char, index, elements[1]);
     }),
     type: 'animate'
-}, {
-    animation: new Frames(prepareGlitchText('Decoding data packets...'), (char, index) => {
-        return doGlitchText(char, index, elements[2]);
-    }),
-    type: 'animate'
 }];
 
 const elements = Array.from(Array(sequence.length)).map(_ => {
