@@ -45,6 +45,6 @@ x.animate().then(([self, time]) => {
 */
 
 x.loop(10, () => {
-	console.log('a');
+	console.log('b');
 	element.innerHTML = '';
 });
