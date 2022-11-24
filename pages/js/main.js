@@ -170,11 +170,15 @@ new Frames(lines, line => {
 });
 */
 
+function scale (number, inMin, inMax, outMin, outMax) {
+    return (number - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+}
+
 const prepareGlitchText = (str) => {
     return str.split('').map((char, i, arr) => {
-        return {
+		return {
             char,
-            lockWhen: Math.floor(Math.random() * arr.length)
+            lockWhen: Math.floor(scale(Math.random(), 0, 1, 0.5, 1) * arr.length)
         }
     });
 }
