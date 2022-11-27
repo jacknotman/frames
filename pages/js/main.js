@@ -19,6 +19,16 @@ const appHeight = () => {
 window.addEventListener('resize', appHeight)
 appHeight();
 
+//
+//
+// Helpers
+//
+//
+
+function scale(number, inMin, inMax, outMin, outMax) {
+    return (number - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+}
+
 const loopImageData = (imageData) => {
     let result = [];
     for (let i = 0; i < imageData.length; i += 4) {
@@ -124,10 +134,6 @@ function MakeQuerablePromise(promise) {
 //
 //
 
-function scale(number, inMin, inMax, outMin, outMax) {
-    return (number - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
-}
-
 const prepareGlitchText = (str) => {
     return str.split('').map((char, i, arr) => {
         return {
@@ -197,7 +203,9 @@ const sequence = [{
     type: 'animate'
 }, {
     animation: new Frames([1, 1], (videoFrame, index, _, self) => {
+        console.log('a');
         return new Promise(resolve => {
+            console.log('b');
             if (self.frames[0] === 1) {
                 Promise.resolve(videoFrames).then(res => {
                     self.frames = res.frames;
