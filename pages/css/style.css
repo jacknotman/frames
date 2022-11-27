@@ -1,6 +1,6 @@
 @font-face {
 	font-family: "Mode Seven";
-	src: url("/pages/assets/Modeseven.ttf");
+	src: url("https://jacknotman.github.io/pages/assets/Modeseven.ttf");
 }
 
 :root {
@@ -13,8 +13,7 @@ html, body {
 }
 
 .wrap800 {
-	width: 100%;
-	max-width: 800px;
+	width: min(100vw, 32rem);
 	margin: 0 auto;
 }
 
@@ -62,16 +61,16 @@ span::after {
 }
 
 .video {
-	font-size: min(calc(100vw / 64), 0.75rem);
+	font-size: min(calc(100vw / 64), 0.5rem);
     display: flex;
     flex-wrap: wrap;
-    width: min(calc(100vw - 2rem), 48rem);
+    width: min(calc(100vw - 2rem), 32rem);
 }
 
 .video span {
 	font-size: 133%;
     line-height: inherit;
-    width: min(calc((100vw - 2rem) / 64), 0.75rem);
+    width: min(calc((100vw - 2rem) / 64), 0.5rem);
 	height: min-content;
-    max-height: min(calc((100vw - 2rem) / 64), 0.75rem);
+    max-height: min(calc((100vw - 2rem) / 64), 0.5rem);
 }
