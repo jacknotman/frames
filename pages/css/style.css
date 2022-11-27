@@ -13,7 +13,7 @@ html, body {
 }
 
 .wrap800 {
-	width: min(100vw, 32rem);
+	max-width: min(100vw, 32rem);
 	margin: 0 auto;
 }
 
