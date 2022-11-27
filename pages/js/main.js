@@ -191,7 +191,9 @@ const sequence = [{
         console.log('X');
         return new Promise(resolve => {
             if (self.frames[0] === 1) {
+                console.log('Y');
                 Promise.resolve(videoFrames).then(res => {
+                    console.log(res.w, res.h);
                     self.frames = res.frames;
 					elements[2].classList.add('video');
 					elements[2].append(...Array.from(Array(res.w * res.h)).map(row => {
