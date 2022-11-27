@@ -10,9 +10,9 @@ class Frames {
                 let currentFrame = self.frames.shift();
                 if (currentFrame) {
                     self.framesDone.push(currentFrame);
-                    Promise.resolve(self.animationFunction(currentFrame, index++, index >= length)).then(_ => window.requestAnimationFrame(animationSchedule));
+                    Promise.resolve(self.animationFunction(currentFrame, index++, index >= length, self)).then(_ => window.requestAnimationFrame(animationSchedule));
                 } else {
-					self.frames = self.framesDone;
+                    self.frames = self.framesDone;
                     self.framesDone = [];
                     resolve([self, Date.now() - start]);
                 }

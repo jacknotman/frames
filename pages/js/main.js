@@ -170,6 +170,95 @@ new Frames(lines, line => {
 });
 */
 
+function extractFramesFromVideo(videoUrl, fps = 6) {
+    return new Promise(async (resolve) => {
+        // fully download it first (no buffering):
+        let videoBlob = await fetch(videoUrl).then((r) => r.blob()).catch(e => console.log(e));
+        let videoObjectUrl = URL.createObjectURL(videoBlob);
+        let video = document.createElement("video");
+        let seekResolve;
+        video.addEventListener("seeked", async function() {
+            if (seekResolve) seekResolve();
+        });
+
+        video.src = videoObjectUrl;
+
+        // workaround chromium metadata bug (https://stackoverflow.com/q/38062864/993683)
+        while (
+            (video.duration === Infinity || isNaN(video.duration)) &&
+            video.readyState < 2
+        ) {
+            await new Promise((r) => setTimeout(r, 1000));
+            video.currentTime = 10000000 * Math.random();
+        }
+        let duration = video.duration;
+
+        let canvas = document.createElement("canvas");
+        let context = canvas.getContext("2d", {
+            willReadFrequently: true
+        });
+        let [w, h] = [video.videoWidth, video.videoHeight];
+        canvas.width = w;
+        canvas.height = h;
+
+        let frames = [];
+        let interval = 1 / fps;
+        let currentTime = 0;
+
+        while (currentTime < duration) {
+            video.currentTime = currentTime;
+            await new Promise((r) => (seekResolve = r));
+            // 
+            context.drawImage(video, 0, 0, w, h);
+            //
+            let result = []
+            let data = context.getImageData(0, 0, w, h).data;
+            frames.push(loopImageData(context.getImageData(0, 0, w, h).data));
+            currentTime += interval;
+        }
+        resolve({
+            w,
+            h,
+            frames
+        });
+    });
+}
+
+function MakeQuerablePromise(promise) {
+    // Don't modify any promise that has been already modified.
+    if (promise.isFulfilled) return promise;
+
+    // Set initial state
+    var isPending = true;
+    var isRejected = false;
+    var isFulfilled = false;
+
+    // Observe the promise, saving the fulfillment in a closure scope.
+    var result = promise.then(
+        function(v) {
+            isFulfilled = true;
+            isPending = false;
+            return v;
+        },
+        function(e) {
+            isRejected = true;
+            isPending = false;
+            throw e;
+        }
+    );
+
+    result.isFulfilled = function() {
+        return isFulfilled;
+    };
+    result.isPending = function() {
+        return isPending;
+    };
+    result.isRejected = function() {
+        return isRejected;
+    };
+    return result;
+}
+
 function scale (number, inMin, inMax, outMin, outMax) {
     return (number - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
 }
@@ -214,7 +303,17 @@ const doRollingText = (char, index, element) => {
     });
 }
 
-const randomChars = `$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^\`'.`.split('');
+//
+//
+//
+
+const videoFrames = extractFramesFromVideo("https://jacknotman.github.io/pages/assets/movie.mp4", 6);
+const videoState = MakeQuerablePromise(videoFrames)
+const ASCIIChars = `$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^\`'.`.split('').reverse();
+
+//
+//
+//
 
 const sequence = [{
     animation: new Frames(prepareGlitchText('\nIntercepting Transmission...\n\n'), (char, index) => {
@@ -226,10 +325,36 @@ const sequence = [{
         return doRollingText(char, index, elements[1]);
     }),
     type: 'loop',
-    count: 3
+    iterationFunction: i => {
+        return !videoState.isFulfilled();
+    }
 }, {
-    animation: new Frames(prepareGlitchText('Transmission captured.'), (char, index) => {
+    animation: new Frames(prepareGlitchText('Transmission captured.\n\n'), (char, index) => {
         return doGlitchText(char, index, elements[1]);
+    }),
+    type: 'animate'
+}, {
+    animation: new Frames([1, 1], (videoFrame, index, _, self) => {
+        return new Promise(resolve => {
+            if (self.frames[0] === 1) {
+                Promise.resolve(videoFrames).then(res => {
+                    self.frames = res.frames;
+					elements[2].classList.add('video');
+					elements[2].append(...Array.from(Array(res.w * res.h)).map(row => {
+						return document.createElement('span');
+					}));
+                    resolve();
+                })
+            } else {
+                setTimeout(() => {
+					[...elements[2].children].forEach((cell, i) => {
+						cell.textContent = ASCIIChars[Math.floor(ASCIIChars.length * videoFrame[i][4])];
+                        cell.style.color = `rgb(${videoFrame[i][0]},${videoFrame[i][1]},${videoFrame[i][2]})`;
+					});
+                    resolve();
+                }, (1000 / 6));
+            }
+        });
     }),
     type: 'animate'
 }];

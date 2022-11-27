@@ -1,0 +1,48 @@
+const randomChars = `$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^\`'.`.split('');
+
+const images = [
+	'https://images.pexels.com/photos/40984/animal-ara-macao-beak-bird-40984.jpeg',
+	'https://images.pexels.com/photos/734973/pexels-photo-734973.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+	'https://images.pexels.com/photos/788200/pexels-photo-788200.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+	'https://media.istockphoto.com/id/1135280229/photo/branches-of-sakura-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=0dOw2zFtA331-8nuJk8k2oSZ3SfUvPnDyejYlA0ioE0='
+];
+
+const targetWidth = 64;
+//
+fetch(images[3]).then(response => response.blob()).then(imageBlob => {
+    // Then create a local URL for that image and print it 
+    const imageObjectURL = URL.createObjectURL(imageBlob);
+	//
+	let image = new Image();
+	image.src = imageObjectURL;
+    //
+	image.onload = () => {
+		let targetHeight = Math.floor((targetWidth / image.naturalWidth) * image.naturalHeight);
+		let canvas = document.createElement('canvas');
+		canvas.width = targetWidth;
+		canvas.height = targetHeight;
+		canvas.ctx = canvas.getContext("2d"); // add context to the copy for easy reference
+		canvas.ctx.drawImage(image, 0, 0, targetWidth, targetHeight);
+		//
+		document.body.appendChild(canvas);
+		//	
+		let imageData = canvas.ctx.getImageData(0, 0, targetWidth, targetHeight).data;
+		let floatingWidth = 0;
+		for(let i = 0; i < targetHeight; i++) {
+			let row = document.createElement('div');
+			let imgDataIndexStart = i * targetWidth;
+			for(let j = 0; j < targetWidth; j++) {
+				//
+				let rgb = Array.from(Array(3)).map((_, i) => imageData[((imgDataIndexStart + j) * 4) + i])
+				let l = ((0.2126 * rgb[0]) + (0.7152 * rgb[1]) + (0.0722 * rgb[2])) / 255;
+				let char = randomChars[Math.floor(randomChars.length * l)]
+				//
+				let item = document.createElement('span');
+				item.style.color = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+				item.textContent = l >= 0.9 ? ' ' : char;
+				row.appendChild(item);
+			}
+			document.querySelector('#test').appendChild(row);
+		}
+	}
+});
