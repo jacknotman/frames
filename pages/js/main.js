@@ -197,7 +197,7 @@ const sequence = [{
             linkElem = document.createElement('a');
             linkElem.href="mailto:hello@h2ml.agency";
             linkElem.alt="Email us";
-            element[3].appendChild(linkElem);
+            elements[3].appendChild(linkElem);
         }
 		return doGlitchText(char, index, linkElem);
 	}),
