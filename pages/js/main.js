@@ -282,7 +282,7 @@ const doGlitchText = (char, index, element) => {
             //
             element.childNodes.forEach(node => {
                 if (Number(node.dataset.lockWhen) > index && node.dataset.origChar != '\n' && node.dataset.origChar != ' ') {
-                    node.textContent = randomChars[(Math.floor(Math.random() * randomChars.length))];
+                    node.textContent = ASCIIChars[(Math.floor(Math.random() * ASCIIChars.length))];
                 } else {
                     node.textContent = node.dataset.origChar;
                 }
