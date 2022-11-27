@@ -210,7 +210,9 @@ const sequence = [{
             }
         });
     }),
-    type: 'animate'
+    type: 'loop',
+    iterationFunction: i => true,
+    skipAfter: i => i === 1,
 }];
 
 const elements = Array.from(Array(sequence.length)).map(_ => {
@@ -226,7 +228,9 @@ new Frames(sequence, animation => {
         if (animation.type === 'animate') {
             animation.animation.animate().then(_ => resolve());
         } else {
-            animation.animation.loop(animation.iterationFunction).then(_ => resolve());
+            animation.animation.loop(animation.iterationFunction).then(_ => {
+                resolve()
+            });
         }
     });
 }).animate();
