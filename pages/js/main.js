@@ -43,6 +43,7 @@ function extractFramesFromVideo(videoUrl, fps = 6) {
     return new Promise(async (resolve) => {
         // fully download it first (no buffering):
         let videoBlob = await fetch(videoUrl).then((r) => r.blob()).catch(e => console.log(e));
+        console.log('x');
         let videoObjectUrl = URL.createObjectURL(videoBlob);
         let video = document.createElement("video");
         let seekResolve;
