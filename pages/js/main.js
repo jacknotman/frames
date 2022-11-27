@@ -239,7 +239,7 @@ const sequence = [{
 	}),
 	type: 'animate'
 }, {
-	animation: new Frames(prepareGlitchText(`We make wonderful websites everyday.`), (char, index) => {
+	animation: new Frames(prepareGlitchText(`We're here to help you tell your digital story.`), (char, index) => {
 		return doGlitchText(char, index, elements[8]);
 	}),
 	type: 'animate'
