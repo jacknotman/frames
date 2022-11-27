@@ -62,3 +62,17 @@ span {
 span::after { 
   display:none; 
 }
+
+.video {
+	font-size: min(calc(100vw / 64), 0.75rem);
+    display: flex;
+    flex-wrap: wrap;
+    width: min(calc(100vw - 2rem), 48rem);
+}
+
+.video span {
+	font-size: 133%;
+    line-height: inherit;
+    width: min(calc((100vw - 2rem) / 64), 0.75rem);
+    height: min(calc((100vw - 2rem) / 64), 0.75rem);
+}
