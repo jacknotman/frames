@@ -201,8 +201,10 @@ const sequence = [{
             } else {
                 setTimeout(() => {
 					[...elements[2].children].forEach((cell, i) => {
-						cell.textContent = ASCIIChars[Math.floor(ASCIIChars.length * videoFrame[i][4])];
-                        cell.style.color = `rgb(${videoFrame[i][0]},${videoFrame[i][1]},${videoFrame[i][2]})`;
+                        if(i < index * 128) {
+							cell.textContent = ASCIIChars[Math.floor(ASCIIChars.length * videoFrame[i][4])];
+                        	cell.style.color = `rgb(${videoFrame[i][0]},${videoFrame[i][1]},${videoFrame[i][2]})`;
+						}
 					});
                     resolve();
                 }, (1000 / 6));
