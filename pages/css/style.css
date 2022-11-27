@@ -74,5 +74,6 @@ span::after {
 	font-size: 133%;
     line-height: inherit;
     width: min(calc((100vw - 2rem) / 64), 0.75rem);
-    height: min(calc((100vw - 2rem) / 64), 0.75rem);
+	height: min-content;
+    max-height: min(calc((100vw - 2rem) / 64), 0.75rem);
 }
