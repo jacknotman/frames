@@ -5,10 +5,16 @@
 // Import Frames.js class
 import { default as Frames } from "./../../src/Frames.js";
 
+//
+//
+// Utils
+//
+//
+
 // Useful Hack for ios safari setting a CSS variable equal to the active viewport height.
 const appHeight = () => {
-  const doc = document.documentElement
-  doc.style.setProperty('--app-height', `${window.innerHeight}px`)
+    const doc = document.documentElement
+    doc.style.setProperty('--app-height', `${window.innerHeight}px`)
 }
 window.addEventListener('resize', appHeight)
 appHeight();
@@ -112,13 +118,19 @@ function MakeQuerablePromise(promise) {
     return result;
 }
 
-function scale (number, inMin, inMax, outMin, outMax) {
+//
+//
+// Main
+//
+//
+
+function scale(number, inMin, inMax, outMin, outMax) {
     return (number - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
 }
 
 const prepareGlitchText = (str) => {
     return str.split('').map((char, i, arr) => {
-		return {
+        return {
             char,
             lockWhen: Math.floor(scale(Math.random(), 0, 1, 0.5, 1) * arr.length)
         }
@@ -164,9 +176,6 @@ const videoFrames = extractFramesFromVideo("https://jacknotman.github.io/pages/a
 const videoState = MakeQuerablePromise(videoFrames)
 const ASCIIChars = `$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^\`'.`.split('').reverse();
 
-//
-//
-//
 
 const sequence = [{
     animation: new Frames(prepareGlitchText('\nIntercepting Transmission...\n\n'), (char, index) => {
@@ -188,12 +197,9 @@ const sequence = [{
     type: 'animate'
 }, {
     animation: new Frames([1, 1], (videoFrame, index, _, self) => {
-        console.log('X');
         return new Promise(resolve => {
             if (self.frames[0] === 1) {
-                console.log('Y');
                 Promise.resolve(videoFrames).then(res => {
-                    console.log(res.w, res.h);
                     self.frames = res.frames;
 					elements[2].classList.add('video');
 					elements[2].append(...Array.from(Array(res.w * res.h)).map(row => {
@@ -204,7 +210,7 @@ const sequence = [{
             } else {
                 setTimeout(() => {
 					[...elements[2].children].forEach((cell, i) => {
-                        if(i < index * 128) {
+						if(i < index * 128) {
 							cell.textContent = ASCIIChars[Math.floor(ASCIIChars.length * videoFrame[i][4])];
                         	cell.style.color = `rgb(${videoFrame[i][0]},${videoFrame[i][1]},${videoFrame[i][2]})`;
 						}
@@ -230,7 +236,7 @@ new Frames(sequence, animation => {
         if (animation.type === 'animate') {
             animation.animation.animate().then(_ => resolve());
         } else {
-            animation.animation.loop(iterationCount => iterationCount < animation.count).then(_ => resolve());
+            animation.animation.loop(animation.iterationFunction).then(_ => resolve());
         }
     });
 }).animate();
