@@ -192,7 +192,14 @@ const sequence = [{
 	type: 'animate'
 }, {
 	animation: new Frames(prepareGlitchText('hello@h2ml.agency\n\n'), (char, index) => {
-		return doGlitchText(char, index, elements[3]);
+        let linkElem = element[3].querySelector('a');
+        if(!linkElem) {
+            linkElem = documentument.createElement('a');
+            linkElem.href="mailto:hello@h2ml.agency";
+            linkElem.alt="Email us";
+            element[3].appendChild(linkElem);
+        }
+		return doGlitchText(char, index, linkElem);
 	}),
 	type: 'animate'
 }, {
