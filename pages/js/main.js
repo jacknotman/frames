@@ -209,7 +209,7 @@ const sequence = [{
         });
     }),
     type: 'loop',
-	iterationFunction: i => i < 1,
+	iterationFunction: i => true,
 	leaveAfter: (256*8) + 40,
 }, {
     animation: new Frames(prepareGlitchText(`\nMessage Received at ${new Date().toISOString()}`), (char, index) => {
