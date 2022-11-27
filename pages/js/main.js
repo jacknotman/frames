@@ -177,7 +177,7 @@ const sequence = [{
     }),
     type: 'loop',
     iterationFunction: i => {
-        return !videoState.isFulfilled();
+        return i < 3 || !videoState.isFulfilled();
     }
 }, {
     animation: new Frames(prepareGlitchText('Transmission captured.\n\n'), (char, index) => {
