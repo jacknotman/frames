@@ -256,6 +256,7 @@ const elements = Array.from(Array(sequence.length)).map(_ => {
 	const element = document.createElement('div');
 	element.ariaLive = "assertive"
 	element.ariaBusy = "true";
+    element.classList.add('terminal');
 	document.querySelector('.content').appendChild(element);
 	return element;
 });
