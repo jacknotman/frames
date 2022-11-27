@@ -39,17 +39,17 @@ const loopImageData = (imageData) => {
     return result;
 }
 
-const getVideoFrames = () => {
+const getVideoFrames = (numberFrames, urlBase) => {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext("2d", {
 		willReadFrequently: true,
 	});
     let [w, h] = [0, 0];
 
-    let x = Array.from(Array(30)).map((_, i) => {
+    let x = Array.from(Array(numberFrames)).map((_, i) => {
         return new Promise(resolve => {
 			const index = i + 1;
-            fetch(`https://jacknotman.github.io/pages/assets/video/out${index}.png`).then(r => r.blob()).then(imageBlob => {
+            fetch(`${urlBase}${index}.png`).then(r => r.blob()).then(imageBlob => {
                 const imageObjectURL = URL.createObjectURL(imageBlob);
                 var img = new Image();
                 img.addEventListener("load", () => {
@@ -161,7 +161,7 @@ const doRollingText = (char, index, element) => {
 //
 //
 
-const videoFrames = getVideoFrames();
+const videoFrames = getVideoFrames(36, 'https://jacknotman.github.io/pages/assets/video/out');
 const videoState = MakeQuerablePromise(videoFrames)
 const ASCIIChars = `$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^\`'.`.split('').reverse();
 
