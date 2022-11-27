@@ -215,6 +215,7 @@ const sequence = [{
             let fps = 6;
             if (self.frames[0] === 1) {
                 Promise.resolve(videoFrames).then(res => {
+                    console.log('y')
                     self.frames = res.frames;
 					elements[2].classList.add('video');
 					elements[2].append(...Array.from(Array(res.w * res.h)).map(row => {
