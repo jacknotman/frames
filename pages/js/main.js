@@ -90,6 +90,7 @@ function extractFramesFromVideo(videoUrl, fps = 6) {
         resolve({
             w,
             h,
+            fps,
             frames
         });
     });
@@ -208,6 +209,7 @@ const sequence = [{
         console.log('a');
         return new Promise(resolve => {
             console.log('b');
+            let fps = 6;
             if (self.frames[0] === 1) {
                 Promise.resolve(videoFrames).then(res => {
                     self.frames = res.frames;
@@ -226,7 +228,7 @@ const sequence = [{
 						}
 					});
                     resolve();
-                }, (1000 / 6));
+                }, (1000 / fps));
             }
         });
     }),
