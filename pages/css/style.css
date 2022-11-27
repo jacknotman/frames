@@ -1,6 +1,7 @@
 @font-face {
 	font-family: "Mode Seven";
-	src: url("https://jacknotman.github.io/pages/assets/Modeseven.ttf");
+	src: local('Pacifico-Regular'), url("https://jacknotman.github.io/pages/assets/Modeseven.ttf");
+	font-display: swap;
 }
 
 :root {
