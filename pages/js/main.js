@@ -50,9 +50,9 @@ function extractFramesFromVideo(videoUrl, fps = 6) {
         video.addEventListener("seeked", async function() {
             if (seekResolve) seekResolve();
         });
-
+        console.log('x5');
         video.src = videoObjectUrl;
-
+        console.log('x6');
         // workaround chromium metadata bug (https://stackoverflow.com/q/38062864/993683)
         while (
             (video.duration === Infinity || isNaN(video.duration)) &&
@@ -62,7 +62,7 @@ function extractFramesFromVideo(videoUrl, fps = 6) {
             video.currentTime = 10000000 * Math.random();
         }
         let duration = video.duration;
-
+        console.log('x7');
         let canvas = document.createElement("canvas");
         let context = canvas.getContext("2d", {
             willReadFrequently: true
@@ -70,11 +70,11 @@ function extractFramesFromVideo(videoUrl, fps = 6) {
         let [w, h] = [video.videoWidth, video.videoHeight];
         canvas.width = w;
         canvas.height = h;
-
+        console.log('x8');
         let frames = [];
         let interval = 1 / fps;
         let currentTime = 0;
-
+        console.log('x9');
         while (currentTime < duration) {
             video.currentTime = currentTime;
             await new Promise((r) => (seekResolve = r));
@@ -86,6 +86,7 @@ function extractFramesFromVideo(videoUrl, fps = 6) {
             frames.push(loopImageData(context.getImageData(0, 0, w, h).data));
             currentTime += interval;
         }
+        console.log('x10');
         resolve({
             w,
             h,
