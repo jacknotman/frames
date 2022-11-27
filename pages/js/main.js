@@ -165,7 +165,6 @@ const videoFrames = getVideoFrames(36, 'https://jacknotman.github.io/pages/asset
 const videoState = MakeQuerablePromise(videoFrames)
 const ASCIIChars = `$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^\`'.`.split('').reverse();
 
-
 const sequence = [{
     animation: new Frames(prepareGlitchText('\nIntercepting Transmission...\n\n'), (char, index) => {
         return doGlitchText(char, index, elements[0]);
@@ -187,32 +186,36 @@ const sequence = [{
 }, {
     animation: new Frames([1, 1], (videoFrame, index, _, self) => {
         return new Promise(resolve => {
-            let fps = 6;
             if (self.frames[0] === 1) {
                 Promise.resolve(videoFrames).then(res => {
                     self.frames = res.frames;
-					elements[2].classList.add('video');
-					elements[2].append(...Array.from(Array(res.w * res.h)).map(row => {
-						return document.createElement('span');
-					}));
+                    elements[2].classList.add('video');
+                    elements[2].append(...Array.from(Array(res.w * res.h)).map(row => {
+                        return document.createElement('span');
+                    }));
                     resolve();
                 })
             } else {
                 setTimeout(() => {
-					[...elements[2].children].forEach((cell, i) => {
-						if(i < index * 256) {
-							cell.textContent = ASCIIChars[Math.floor(ASCIIChars.length * videoFrame[i][4])];
-                        	cell.style.color = `rgb(${videoFrame[i][0]},${videoFrame[i][1]},${videoFrame[i][2]})`;
-						}
-					});
+                    [...elements[2].children].forEach((cell, i) => {
+                        if (i < index * 256) {
+                            cell.textContent = ASCIIChars[Math.floor(ASCIIChars.length * videoFrame[i][4])];
+                            cell.style.color = `rgb(${videoFrame[i][0]},${videoFrame[i][1]},${videoFrame[i][2]})`;
+                        }
+                    });
                     resolve();
-                }, (1000 / fps));
+                }, (1000 / 6));
             }
         });
     }),
     type: 'loop',
-    iterationFunction: i => true,
-    skipAfter: i => i === 1,
+	iterationFunction: i => i < 1,
+	leaveAfter: (256*8) + 40,
+}, {
+    animation: new Frames(prepareGlitchText(`\nMessage Received at ${new Date().toISOString()}`), (char, index) => {
+        return doGlitchText(char, index, elements[3]);
+    }),
+    type: 'animate'
 }];
 
 const elements = Array.from(Array(sequence.length)).map(_ => {
@@ -228,9 +231,14 @@ new Frames(sequence, animation => {
         if (animation.type === 'animate') {
             animation.animation.animate().then(_ => resolve());
         } else {
-            animation.animation.loop(animation.iterationFunction).then(_ => {
-                resolve()
-            });
+			if(animation.leaveAfter) {
+				animation.animation.loop(animation.iterationFunction);
+				setTimeout(() => {
+					resolve();
+				}, animation.leaveAfter)		
+			} else {
+				animation.animation.loop(animation.iterationFunction).then(_ => resolve());
+			}		
         }
     });
 }).animate();
