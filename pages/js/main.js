@@ -74,7 +74,7 @@ function extractFramesFromVideo(videoUrl, fps = 6) {
         let frames = [];
         let interval = 1 / fps;
         let currentTime = 0;
-        console.log('x9');
+        console.log('x9', duration);
         while (currentTime < duration) {
             video.currentTime = currentTime;
             await new Promise((r) => (seekResolve = r));
