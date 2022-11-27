@@ -188,6 +188,7 @@ const sequence = [{
     type: 'animate'
 }, {
     animation: new Frames([1, 1], (videoFrame, index, _, self) => {
+        console.log('X');
         return new Promise(resolve => {
             if (self.frames[0] === 1) {
                 Promise.resolve(videoFrames).then(res => {
