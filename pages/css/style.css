@@ -48,12 +48,16 @@ h2 {
     color: #eaeae8;
 }
 
+div.terminal {
+	color: #eaeae8;
+}
+
 span {
 	font-family: 'Mode Seven', monospace;
 	font-size: 1rem;
 	line-height: 1.2rem;
 	margin: 0;
-	color: #eaeae8;
+	color: inherit;
 }
 
 span::after { 
@@ -74,3 +78,4 @@ span::after {
 	height: min-content;
     max-height: min(calc((100vw - 2rem) / 64), 0.5rem);
 }
+
