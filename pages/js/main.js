@@ -39,62 +39,39 @@ const loopImageData = (imageData) => {
     return result;
 }
 
-function extractFramesFromVideo(videoUrl, fps = 6) {
-    return new Promise(async (resolve) => {
-        // fully download it first (no buffering):
-        let videoBlob = await fetch(videoUrl).then((r) => r.blob()).catch(e => console.log(e));
+const getVideoFrames = () => {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext("2d", {
+		willReadFrequently: true,
+	});
+    let [w, h] = [0, 0];
 
-        let videoObjectUrl = URL.createObjectURL(videoBlob);
-        let video = document.createElement("video");
-        let seekResolve;
-        video.addEventListener("seeked", async function() {
-            if (seekResolve) seekResolve();
+    let x = Array.from(Array(30)).map((_, i) => {
+        return new Promise(resolve => {
+			const index = i + 1;
+            fetch(`https://jacknotman.github.io/pages/assets/video/out${index}.png`).then(r => r.blob()).then(imageBlob => {
+                const imageObjectURL = URL.createObjectURL(imageBlob);
+                var img = new Image();
+                img.addEventListener("load", () => {
+                    URL.revokeObjectURL(img.src);
+                    [w, h] = [img.naturalWidth, img.naturalHeight];
+                    canvas.width = w;
+                    canvas.height = h;
+                    context.drawImage(img, 0, 0);
+                    resolve(loopImageData(context.getImageData(0, 0, w, h).data));
+                });
+                img.setAttribute('src', imageObjectURL);
+            });
         });
+    });
 
-        video.src = videoObjectUrl;
-
-        // workaround chromium metadata bug (https://stackoverflow.com/q/38062864/993683)
-        while (
-            (video.duration === Infinity || isNaN(video.duration)) &&
-            video.readyState < 2
-        ) {
-            await new Promise((r) => setTimeout(r, 1000));
-            video.currentTime = 10000000 * Math.random();
-        }
-        let duration = video.duration;
-
-        let canvas = document.createElement("canvas");
-        let context = canvas.getContext("2d", {
-            willReadFrequently: true
-        });
-        let [w, h] = [video.videoWidth, video.videoHeight];
-        canvas.width = w;
-        canvas.height = h;
-
-        let frames = [];
-        let interval = 1 / fps;
-        let currentTime = 0;
-        console.log('x9', duration);
-        while (currentTime < duration) {
-            console.log('x9.1');
-            video.currentTime = currentTime;
-            await new Promise((r) => (seekResolve = r));
-            //
-            console.log('x9.2');
-            context.drawImage(video, 0, 0, w, h);
-            //
-            console.log('x9.3');
-            let result = []
-            let data = context.getImageData(0, 0, w, h).data;
-            frames.push(loopImageData(context.getImageData(0, 0, w, h).data));
-            currentTime += interval;
-        }
-        console.log('x10');
-        resolve({
-            w,
-            h,
-            fps,
-            frames
+    return new Promise(resolve => {
+        Promise.all(x).then(frames => {
+            resolve({
+                w,
+                h,
+                frames
+            });
         });
     });
 }
@@ -184,7 +161,7 @@ const doRollingText = (char, index, element) => {
 //
 //
 
-const videoFrames = extractFramesFromVideo("https://jacknotman.github.io/pages/assets/movie.mp4", 6);
+const videoFrames = getVideoFrames();
 const videoState = MakeQuerablePromise(videoFrames)
 const ASCIIChars = `$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^\`'.`.split('').reverse();
 
@@ -209,13 +186,10 @@ const sequence = [{
     type: 'animate'
 }, {
     animation: new Frames([1, 1], (videoFrame, index, _, self) => {
-        console.log('a');
         return new Promise(resolve => {
-            console.log('b');
             let fps = 6;
             if (self.frames[0] === 1) {
                 Promise.resolve(videoFrames).then(res => {
-                    console.log('y')
                     self.frames = res.frames;
 					elements[2].classList.add('video');
 					elements[2].append(...Array.from(Array(res.w * res.h)).map(row => {
@@ -226,7 +200,7 @@ const sequence = [{
             } else {
                 setTimeout(() => {
 					[...elements[2].children].forEach((cell, i) => {
-						if(i < index * 128) {
+						if(i < index * 256) {
 							cell.textContent = ASCIIChars[Math.floor(ASCIIChars.length * videoFrame[i][4])];
                         	cell.style.color = `rgb(${videoFrame[i][0]},${videoFrame[i][1]},${videoFrame[i][2]})`;
 						}
