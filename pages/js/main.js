@@ -212,8 +212,23 @@ const sequence = [{
 	iterationFunction: i => true,
 	leaveAfter: (256*8) + 40,
 }, {
-    animation: new Frames(prepareGlitchText(`\nMessage Received at ${new Date().toISOString()}`), (char, index) => {
+    animation: new Frames(prepareGlitchText('\nMessage Received:\n'), (char, index) => {
         return doGlitchText(char, index, elements[3]);
+    }),
+    type: 'animate'
+}, {
+    animation: new Frames(prepareGlitchText(`${new Date().toISOString()}`), (char, index) => {
+        return doGlitchText(char, index, elements[4]);
+    }),
+    type: 'animate'
+}, {
+    animation: new Frames(prepareGlitchText('\nMessage:\n'), (char, index) => {
+        return doGlitchText(char, index, elements[5]);
+    }),
+    type: 'animate'
+}, {
+    animation: new Frames(prepareGlitchText(`We make wonderful websites everyday.`), (char, index) => {
+        return doGlitchText(char, index, elements[6]);
     }),
     type: 'animate'
 }];
